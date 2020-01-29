@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Select from 'react-select';
 import './App.css';
 
 class App extends Component {
@@ -6,8 +7,14 @@ class App extends Component {
   state = {
     data: [], 
     yearOptions: [],
-    yearSelected: 1976,
-    formatSelected: 'Percentage',
+    yearSelected: {value: 1976, label: 1976},
+    formatOptions: [
+      {value: 'percentage', label: 'Percentage'},
+      {value: 'voteCount', label: 'Vote Count'},
+    ],
+    formatSelected: [{value: 'percentage', label: 'Percentage'}],
+    stateOptions:[], 
+    stateSelected: null,
     democratData: [], 
     republicanData: [],
   }
@@ -22,35 +29,51 @@ class App extends Component {
     fetch("./data/data.json")
       .then(response => response.json())
       .then(data => {
-          // pull election years for selecting dates
+          // pull election year options and state options
           let yearOptions = []
+          let stateOptions = []
           for (let row of Object.values(data)) {
               if (!yearOptions.includes(row.year)) {
-                yearOptions.push(row.year);
+                yearOptions.push(parseInt(row.year));
+              }
+              if (!stateOptions.includes(row.state)) {
+                stateOptions.push(row.state);
               }
           }
+
           this.setState({
             data: data, 
-            yearOptions: yearOptions,
+            yearOptions: yearOptions.map(year => {
+              return {value: year, label: year}
+            }),
+            stateOptions: stateOptions.map(state => {
+              return {value: state, label: state}
+            }),
           })
+
           // filter data from selections to be rendered
           this.selectData();
       })
 
   }
 
-  onSelectDateChange = (ev) => {
+  handleYearChange = (selectedOption) => {
     this.setState(
-      {yearSelected: parseInt(ev.target.value)}, () => {
-        console.log('year selected: ', this.state.yearSelected);
+      {yearSelected: selectedOption}, () => {
         this.selectData();
       })
   }
   
-  onSelectFormatChange = (ev) => {
+  handleFormatChange = (selectedOption) => {
     this.setState(
-      {formatSelected: ev.target.value}, () => {
-        console.log('year selected: ', this.state.yearSelected);
+      {formatSelected: selectedOption}, () => {
+        this.selectData();
+    })
+  }
+
+  handleStateChange = (selectedOption) => {
+    this.setState(
+      {stateSelected: selectedOption}, () => {
         this.selectData();
     })
   }
@@ -60,15 +83,21 @@ class App extends Component {
     let newDemData = []; 
     let newRepData = []; 
 
+    const yearSelected = this.state.yearSelected.value; 
+    
+    // set defualt filter as 'all' states unless selected by user
+    let stateSelected = 'all'
+    if(this.state.stateSelected && this.state.stateSelected.length > 0) {
+      stateSelected = this.state.stateSelected.map(state => state.value); 
+    }
+
     for (let row of Object.values(this.state.data)) {
-      if (row.year === this.state.yearSelected && row.party === 'democrat') {
+      if (row.year === yearSelected && row.party === 'democrat' && (stateSelected == 'all' || stateSelected.includes(row.state))) {
         newDemData.push(row); 
-      } else if (row.year === this.state.yearSelected && row.party === 'republican') {
+      } else if (row.year === yearSelected && row.party === 'republican' && (stateSelected == 'all' || stateSelected.includes(row.state))) {
         newRepData.push(row);
       }
     }
-    console.log('dem data: ', newDemData);
-    console.log('rep data: ', newRepData);
     this.setState({
       democratData: newDemData, 
       republicanData: newRepData,
@@ -76,7 +105,7 @@ class App extends Component {
   }
 
   formatData = (row) => {
-    if (this.state.formatSelected ==='Percentage') {
+    if (this.state.formatSelected.value ==='percentage') {
         return row.percentage + '%'; 
     } else {
         return row.candidatevotes.toLocaleString(); 
@@ -93,17 +122,28 @@ class App extends Component {
                 <h1>U.S. Presidential Election Results</h1>
             </div>
             <div className="Chart-selectors">
-                <select onChange={this.onSelectDateChange}>
-                {
-                  this.state.yearOptions.map(year => (
-                    <option>{year}</option>
-                  ))
-                }
-                </select>
-                <select onChange={this.onSelectFormatChange}>
-                    <option>Percentage</option>
-                    <option>Vote Count</option>
-                </select>
+                <Select 
+                  className="Chart-selectors-item"
+                  value={this.state.yearSelected}
+                  onChange={this.handleYearChange}
+                  options={this.state.yearOptions}
+                  />
+                <Select
+                  className="Chart-selectors-item"
+                  value={this.state.formatSelected}
+                  onChange={this.handleFormatChange}
+                  options={this.state.formatOptions}
+                />
+                <Select
+                  className="Chart-selectors-item"
+                  value={this.state.stateSelected}
+                  isMulti
+                  isSearchable
+                  placeholder="All States"
+                  closeMenuOnSelect={false}
+                  onChange={this.handleStateChange}
+                  options={this.state.stateOptions}
+                />
             </div>
             <div className="Chart-subtitleLeft">
                 <h2><i className="fas fa-democrat"></i> Democrats</h2>

@@ -42,6 +42,14 @@ body {
 .Chart-selectors {
   grid-column: 1 / span3; 
   grid-row: 2;
+  display: flex;
+}
+
+.Chart-selectors-item {
+  /* display: flex; */
+  min-width: 150px;
+  padding-right: 2px;
+  padding-left: 2px;
 }
 
 .Chart-subtitleLeft {
