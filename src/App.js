@@ -117,72 +117,78 @@ class App extends Component {
 
     return (
       <div className="Container">
-        <div className="Chart">
-            <div className="Chart-title">
-                <h1>U.S. Presidential Election Results</h1>
-            </div>
-            <div className="Chart-selectors">
-                <Select 
-                  className="Chart-selectors-item"
-                  value={this.state.yearSelected}
-                  onChange={this.handleYearChange}
-                  options={this.state.yearOptions}
-                  />
-                <Select
-                  className="Chart-selectors-item"
-                  value={this.state.formatSelected}
-                  onChange={this.handleFormatChange}
-                  options={this.state.formatOptions}
+        <div className="Column-left">
+          <div className="Chart-selectors">
+              <Select 
+                className="Chart-selectors-item"
+                value={this.state.yearSelected}
+                onChange={this.handleYearChange}
+                options={this.state.yearOptions}
                 />
-                <Select
-                  className="Chart-selectors-item"
-                  value={this.state.stateSelected}
-                  isMulti
-                  isSearchable
-                  placeholder="All States"
-                  closeMenuOnSelect={false}
-                  onChange={this.handleStateChange}
-                  options={this.state.stateOptions}
-                />
-            </div>
-            <div className="Chart-subtitleLeft">
-                <h2><i className="fas fa-democrat"></i> Democrats</h2>
-            </div>
-            <div className="Chart-left">
-            {
-              this.state.democratData.map(row => (
-                <div className="Chart-row">
-                <div className="Chart-barLabel"> 
-                  {row.state}
-                </div>
-                <div className="u-dottedLine"></div>
-                <div className={`Chart-bar DemocraticBar ${row.state_po}`} style={{width: row.percentage + "%"}} onClick={() => alert(row.candidate.split(',')[1] + " " + row.candidate.split(',')[0] + " - " + row.candidatevotes)}>
-                    {this.formatData(row)}
-                </div>
-                </div>
-              ))
-            }
-            </div>
-            <div className="Chart-divider"></div>
-            <div className="Chart-subtitleRight">
-                <h2><i className="fas fa-republican"></i> Republicans</h2>
-            </div>
-            <div className="Chart-right" >
-            {
-              this.state.republicanData.map(row => (
-                <div className="Chart-row">
-                <div className={`Chart-bar RepublicanBar ${row.state_po}`} style={{width: row.percentage + "%"}} onClick={() => alert(row.candidate.split(',')[1] + " " + row.candidate.split(',')[0] + " - " + row.candidatevotes)}>
-                    {this.formatData(row)}
-                </div>
-                <div className="u-dottedLine"></div>
-                <div className="Chart-barLabel"> 
-                  {row.state}
-                </div>
-                </div>
-              ))
-            }
+              <Select
+                className="Chart-selectors-item"
+                value={this.state.formatSelected}
+                onChange={this.handleFormatChange}
+                options={this.state.formatOptions}
+              />
+              <Select
+                className="Chart-selectors-item"
+                value={this.state.stateSelected}
+                isMulti
+                isSearchable
+                placeholder="All States"
+                closeMenuOnSelect={false}
+                onChange={this.handleStateChange}
+                options={this.state.stateOptions}
+              />
             </div>
         </div>
+        <div className="Column-right">
+          <div className="Title">
+              <h1>U.S. Presidential Election Results</h1>
+          </div>
+          <div className="SubTitle">
+            <div className="SubTitle-left">
+              <h2><i className="fas fa-democrat"></i> Democrats</h2>
+            </div>
+            <div className="SubTitle-right">
+              <h2><i className="fas fa-republican"></i> Republicans</h2>
+            </div>
+          </div>
+          <div className="Chart">
+              <div className="Chart-left">
+              {
+                this.state.democratData.map(row => (
+                  <div className="Chart-row">
+                  <div className="Chart-barLabel"> 
+                    {row.state}
+                  </div>
+                  <div className="u-dottedLine"></div>
+                  <div className={`Chart-bar DemocraticBar ${row.state_po}`} style={{width: row.percentage + "%"}} onClick={() => alert(row.candidate.split(',')[1] + " " + row.candidate.split(',')[0] + " - " + row.candidatevotes)}>
+                      {this.formatData(row)}
+                  </div>
+                  </div>
+                ))
+              }
+              </div>
+              <div className="Chart-divider"></div>
+              <div className="Chart-right" >
+              {
+                this.state.republicanData.map(row => (
+                  <div className="Chart-row">
+                  <div className={`Chart-bar RepublicanBar ${row.state_po}`} style={{width: row.percentage + "%"}} onClick={() => alert(row.candidate.split(',')[1] + " " + row.candidate.split(',')[0] + " - " + row.candidatevotes)}>
+                      {this.formatData(row)}
+                  </div>
+                  <div className="u-dottedLine"></div>
+                  <div className="Chart-barLabel"> 
+                    {row.state}
+                  </div>
+                  </div>
+                ))
+              }
+              </div>
+          </div>
+      </div>
     </div>
     );
   }
