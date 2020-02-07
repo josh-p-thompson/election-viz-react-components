@@ -1,0 +1,62 @@
+.ChartRow {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px; 
+    min-height: 50px;
+}
+    
+.ChartRow:first-child {
+    margin-top: 10px;
+}
+
+.ChartRow:last-child {
+    margin-bottom: 10px;
+}
+
+.ChartRow-left {
+    display: flex; 
+    justify-content: flex-end;
+}
+  
+.u-dottedLine {
+    height: 50%; 
+    border-top: 1px dotted var(--line-color); 
+    min-width: 20px;
+    flex-grow: 1;
+    margin-left: 4px; 
+    margin-right: 4px; 
+}
+
+.ChartRow-bar {
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+    border: .5px solid var(--line-color);
+    box-sizing: border-box;
+    height: 40px;
+    padding: 2px;
+    color: white;
+    transition: .2s; 
+}
+  
+.LeftBar {
+    background-color: var(--democratic-color);
+    border-right: 0; 
+}
+  
+.RightBar {
+    background-color: var(--republican-color);
+    border-left: 0; 
+}
+  
+.ChartRow-bar:hover {
+    box-shadow: 0 3px 10px rgba(0,0,0,.2);
+    transform: translate3d(0,-2px,0);
+    cursor: pointer;
+}
+  
+@media screen and (max-width: 850px) { 
+    .u-dottedLine {
+        min-width: 5px;
+    }
+}

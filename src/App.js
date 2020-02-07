@@ -1,10 +1,21 @@
 import React, { Component } from 'react';
-import Select from 'react-select';
 import './App.css';
+
+import Title from './components/Title/Title.js';
+import Sidebar from './components/Sidebar/Sidebar.js';
+import ButterflyChart from './components/ButterflyChart/ButterflyChart.js';
+import Bar from './components/ChartRow/ChartRow.js';
 
 class App extends Component {
 
   state = {
+    // static values for Title component
+    mainTitle: "U.S. Presidential Election Results",
+    subTitleLeft: "Democrats", 
+    fontAwesomeClassLeft: "fas fa-democrat", 
+    subTitleRight: "Republicans",
+    fontAwesomeClassRight: "fas fa-republican",    
+
     data: [], 
     yearOptions: [],
     yearSelected: {value: 1976, label: 1976},
@@ -12,7 +23,7 @@ class App extends Component {
       {value: 'percentage', label: 'Percentage'},
       {value: 'voteCount', label: 'Vote Count'},
     ],
-    formatSelected: [{value: 'percentage', label: 'Percentage'}],
+    formatSelected: [{value: 'voteCount', label: 'Vote Count'}],
     stateOptions:[], 
     stateSelected: null,
     democratData: [], 
@@ -118,78 +129,24 @@ class App extends Component {
     return (
       <div className="Container">
         <div className="Column-left">
-          <div className="Chart-selectors">
-              <Select 
-                className="Chart-selectors-item"
-                value={this.state.yearSelected}
-                onChange={this.handleYearChange}
-                options={this.state.yearOptions}
-                />
-              <Select
-                className="Chart-selectors-item"
-                value={this.state.formatSelected}
-                onChange={this.handleFormatChange}
-                options={this.state.formatOptions}
-              />
-              <Select
-                className="Chart-selectors-item"
-                value={this.state.stateSelected}
-                isMulti
-                isSearchable
-                placeholder="All States"
-                closeMenuOnSelect={false}
-                onChange={this.handleStateChange}
-                options={this.state.stateOptions}
-              />
-            </div>
+          <Sidebar
+            {...this.state}
+            handleYearChange={this.handleYearChange}
+            handleFormatChange={this.handleFormatChange}
+            handleStateChange={this.handleStateChange}
+          />
         </div>
         <div className="Column-right">
-          <div className="Title">
-              <h1>U.S. Presidential Election Results</h1>
-          </div>
-          <div className="SubTitle">
-            <div className="SubTitle-left">
-              <h2><i className="fas fa-democrat"></i> Democrats</h2>
-            </div>
-            <div className="SubTitle-right">
-              <h2><i className="fas fa-republican"></i> Republicans</h2>
-            </div>
-          </div>
-          <div className="Chart">
-              <div className="Chart-left">
-              {
-                this.state.democratData.map(row => (
-                  <div className="Chart-row">
-                  <div className="Chart-barLabel"> 
-                    {row.state}
-                  </div>
-                  <div className="u-dottedLine"></div>
-                  <div className={`Chart-bar DemocraticBar ${row.state_po}`} style={{width: row.percentage + "%"}} onClick={() => alert(row.candidate.split(',')[1] + " " + row.candidate.split(',')[0] + " - " + row.candidatevotes)}>
-                      {this.formatData(row)}
-                  </div>
-                  </div>
-                ))
-              }
-              </div>
-              <div className="Chart-divider"></div>
-              <div className="Chart-right" >
-              {
-                this.state.republicanData.map(row => (
-                  <div className="Chart-row">
-                  <div className={`Chart-bar RepublicanBar ${row.state_po}`} style={{width: row.percentage + "%"}} onClick={() => alert(row.candidate.split(',')[1] + " " + row.candidate.split(',')[0] + " - " + row.candidatevotes)}>
-                      {this.formatData(row)}
-                  </div>
-                  <div className="u-dottedLine"></div>
-                  <div className="Chart-barLabel"> 
-                    {row.state}
-                  </div>
-                  </div>
-                ))
-              }
-              </div>
-          </div>
+          <Title 
+            {...this.state}
+          />
+          <ButterflyChart
+            leftData={this.state.democratData}
+            rightData={this.state.republicanData}
+            formatData={this.formatData}
+          />
+        </div>
       </div>
-    </div>
     );
   }
 }

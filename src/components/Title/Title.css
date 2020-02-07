@@ -1,0 +1,57 @@
+.Title {
+    display: flex; 
+    flex-direction: column; 
+}
+
+.Title-main {
+    font-family: 'Fira Sans', sans-serif;
+    display: flex; 
+    justify-content: center;
+}
+
+.Title-sub {
+    display: grid;
+    font-family: 'Athiti', sans-serif;
+    grid-template-columns: 1fr 2px 1fr; 
+    grid-template-rows: auto;
+    justify-items: center;
+    align-items: center;
+    width: 800px; 
+  }
+  
+.Title-sub--left {
+    grid-column: 1; 
+    grid-row: 1; 
+}
+
+.Title-sub--right {
+    grid-column: 3; 
+    grid-row: 1; 
+}
+
+/* valid only for republican and democrat icons */
+.fa-democrat {
+    color: var(--democratic-color);
+    -webkit-transition: -webkit-transform .5s ease-in-out;
+    -ms-transition: -ms-transform .5s ease-in-out;
+    transition: transform .5s ease-in-out;
+}
+
+.fa-democrat:hover {
+    transform:rotate(45deg);
+    -ms-transform:rotate(45deg);
+    -webkit-transform:rotate(45deg);
+}
+
+.fa-republican {
+    color: var(--republican-color);
+    -webkit-transition: -webkit-transform .5s ease-in-out;
+    -ms-transition: -ms-transform .5s ease-in-out;
+    transition: transform .5s ease-in-out;
+}
+
+.fa-republican:hover {
+    transform:rotate(-45deg);
+    -ms-transform:rotate(-45deg);
+    -webkit-transform:rotate(-45deg);
+}

@@ -1,0 +1,51 @@
+
+.ButterflyChart {
+    flex: 1;
+    overflow: auto;
+    display: grid;
+    grid-template-columns: 1fr 2px 1fr; 
+    grid-template-rows: auto;
+    justify-items: center;
+    align-items: center;
+    padding: 20px; 
+    padding-top: 0;
+    width: 800px; 
+}
+
+.ButterflyChart-left {
+    grid-column: 1;
+    grid-row: 1; 
+    width: 100%; 
+}
+
+.ButterflyChart-divider {
+    grid-column: 2; 
+    grid-row: 1; 
+    background-color: var(--line-color); 
+    height: 100%; 
+    width: 100%; 
+}
+
+.ButterflyChart-right {
+    grid-row: 1; 
+    grid-column: 3;
+    width: 100%; 
+}
+
+@media screen and (max-width: 850px) { 
+    .ButterflyChart {
+        width: 700px;
+    }
+}
+
+@media screen and (max-width: 750px) { 
+    .ButterflyChart {
+        width: 600px;
+    }
+}
+
+@media screen and (max-width: 650px) { 
+    .ButterflyChart {
+        width: 500px;
+    }
+}

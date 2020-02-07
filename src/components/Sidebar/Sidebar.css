@@ -1,0 +1,15 @@
+
+  .Sidebar {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .Sidebar-item {
+    width: 200px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+  }
+  
